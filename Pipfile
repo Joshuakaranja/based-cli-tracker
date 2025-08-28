@@ -6,9 +6,9 @@ name = "pypi"
 [packages]
 sqlalchemy = "*"
 alembic = "*"
-click = "*"
 tabulate = "*"
 python-dotenv = "*"
+click = "*"
 
 [dev-packages]
 pytest = "*"

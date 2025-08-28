@@ -47,6 +47,12 @@ A command-line interface (CLI) application for tracking learning skills and prac
 
 ## Usage
 
+Before running the application, ensure you have activated the virtual environment. You can do this with:
+
+```bash
+pipenv shell
+```
+
 Run the CLI application using the following command:
 
 ```bash

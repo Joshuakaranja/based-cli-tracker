@@ -25,7 +25,6 @@ class Skill(Base):
     user = relationship("User", back_populates="skills")
     practice_sessions = relationship("PracticeSession", back_populates="skill")
 
-# PracticeSession model
 class PracticeSession(Base):
     __tablename__ = 'practice_sessions'
     

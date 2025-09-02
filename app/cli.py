@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.models import Base, User, Skill, PracticeSession
 
-DATABASE_URL = "sqlite:///tracker.db"  
+DATABASE_URL = "sqlite:///skills_tracker.db"
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -51,6 +51,62 @@ def log_practice(user_id, skill_name, duration):
         click.echo(f'Logged {duration} minutes of practice for skill {skill_name}.')
     else:
         click.echo(f'Skill {skill_name} not found for user ID {user_id}.')
+
+@cli.command()
+def seed():
+    """Seed the database with sample data."""
+    session = Session()
+
+    # Create sample users
+    users_data = [
+        {"name": "Alice Johnson", "email": "alice@example.com"},
+        {"name": "Bob Smith", "email": "bob@example.com"},
+        {"name": "Charlie Brown", "email": "charlie@example.com"}
+    ]
+
+    users = []
+    for user_data in users_data:
+        user = User(name=user_data["name"], email=user_data["email"])
+        session.add(user)
+        users.append(user)
+
+    session.commit()  # Commit to get user IDs
+
+    # Create sample skills
+    skills_data = [
+        {"name": "Python Programming", "user": users[0]},
+        {"name": "Web Development", "user": users[0]},
+        {"name": "Data Analysis", "user": users[1]},
+        {"name": "Machine Learning", "user": users[1]},
+        {"name": "Graphic Design", "user": users[2]},
+        {"name": "Photography", "user": users[2]}
+    ]
+
+    skills = []
+    for skill_data in skills_data:
+        skill = Skill(name=skill_data["name"], user_id=skill_data["user"].id)
+        session.add(skill)
+        skills.append(skill)
+
+    session.commit()  # Commit to get skill IDs
+
+    # Create sample practice sessions
+    practice_data = [
+        {"skill": skills[0], "duration": 60},
+        {"skill": skills[0], "duration": 45},
+        {"skill": skills[1], "duration": 90},
+        {"skill": skills[2], "duration": 30},
+        {"skill": skills[3], "duration": 120},
+        {"skill": skills[4], "duration": 75},
+        {"skill": skills[5], "duration": 50}
+    ]
+
+    for practice in practice_data:
+        practice_session = PracticeSession(duration=practice["duration"], skill_id=practice["skill"].id)
+        session.add(practice_session)
+
+    session.commit()
+    click.echo("Database seeded with sample data successfully!")
 
 if __name__ == '__main__':
     cli()

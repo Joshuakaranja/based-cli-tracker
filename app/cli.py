@@ -72,7 +72,6 @@ def seed():
 
     session.commit()  # Commit to get user IDs
 
-    # Create sample skills
     skills_data = [
         {"name": "Python Programming", "user": users[0]},
         {"name": "Web Development", "user": users[0]},
@@ -88,9 +87,9 @@ def seed():
         session.add(skill)
         skills.append(skill)
 
-    session.commit()  # Commit to get skill IDs
+    session.commit()  
 
-    # Create sample practice sessions
+    
     practice_data = [
         {"skill": skills[0], "duration": 60},
         {"skill": skills[0], "duration": 45},
